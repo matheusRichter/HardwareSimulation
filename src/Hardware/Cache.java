@@ -28,16 +28,28 @@ public class Cache {
         }
     }
 
+    /*
+    * Função para ler um bloco da Ram e salvar em uma Line na Cache
+    */
     private void read() throws EnderecoInvalido {
         for(int i = 0; i < k; i++){
             cache[r].bloco[i] = ram.Read(s+w);
         }
     }
 
+    /*
+    * Hit significa que o endereço buscado está na Cache,
+    * então apenas retorna a palavra correspondente
+    */
     private int hit(){
         return cache[r].bloco[w];
     }
 
+    /*
+    * Miss signiica que o endereço buscado não está na Cache,
+    * então verifica se a Line foi alterada, caso sim, salva na Ram,
+    * caso não, copia o bloco da Ram para a Cache
+    */
     private int miss() throws EnderecoInvalido {
         if(cache[r].modif){
             write();
@@ -46,6 +58,10 @@ public class Cache {
         return cache[r].bloco[w];
     }
 
+    /*
+    * Separa os valores w, r, t e s do endereço solicitado
+    * para executar os calculos necessários
+    */
     public int solicitacao(int ende) throws EnderecoInvalido {
         w = CalcEndeBom.separa_w(ende);
         r = CalcEndeBom.separa_r(ende);
